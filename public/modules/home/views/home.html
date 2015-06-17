@@ -1,0 +1,104 @@
+﻿<h1>Home</h1>
+<p>You're logged in!!</p>
+
+<div style="width: 100%">
+
+<div ng-controller="editRanks" class="sm-col-2" style="width: 70%">
+    <h2 class="text-center"> Edit ranking </h2>
+    <form>
+        <div class="form-group" >
+
+            <!-- BIND THIS VALUE TO formData.text IN ANGULAR -->
+            <input type="text" class="form-control input-lg text-center" placeholder="place" ng-model="formData.place">
+            <input type="text" class="form-control input-lg text-center" placeholder="Name" ng-model="formData.name">
+            <input type="text" class="form-control input-lg text-center" placeholder="popularity" ng-model="formData.popularity">
+        </div>
+        <button type="submit" class="btn btn-primary btn-lg" ng-click="updateRanking()">Update</button>
+    </form>
+
+</div>
+
+<div ng-controller="editHeroes" class="sm-col-4" style="width: 100%">
+    <table>
+        <tr><td width="40%">
+        <h2 class="text-center"> Create Hero </h2>
+        <form>
+            <div class="form-group" >
+                <input type="text" class="form-control input-lg text-center" placeholder="Name" ng-model="formData2.name">
+                <input type="text" class="form-control input-lg text-center" placeholder="Type" ng-model="formData2.type">
+            </div>
+            <button type="submit" class="btn btn-primary btn-lg" ng-click="createHero()">Add</button>
+        </form>
+        </td>
+            <td width="60%">
+                <h2 class="text-center"> Delete Hero </h2>
+                <button class="btn btn-primary btn-lg" ng-repeat="hero in heroes | orderBy:'name'" ng-click="deleteHero(hero._id)"> {{ hero.name }}</button>
+            </td>
+        </tr>
+    </table>
+</div>
+</div>
+
+<p><a href="#/login">Logout</a></a></p>
+
+<script>
+    function editRanks($scope, $http){
+
+        $scope.updateRanking = function() {
+                $http.put('/ranking/' + $scope.formData.place, $scope.formData)
+                        .success(function (data){
+                            $scope.formData = {};
+                        })
+                        .error(function(data) {
+                            console.log('Error: ' + data);
+                        });
+        };
+    }
+
+    function editHeroes($scope, $http){
+        $http.get('/heroes')
+                .success(function(data) {
+                    $scope.heroes = data;
+                })
+                .error(function(data) {
+                    console.log('Error: ' + data);
+                });
+
+        $scope.createHero = function() {
+            $http.post('/heroes', $scope.formData2)
+                    .success(function(data) {
+                        $scope.formData2 = {}; // clear the form so our user is ready to enter another
+
+                        $http.get('/heroes')
+                                .success(function(data) {
+                                    $scope.heroes = data;
+                                })
+                                .error(function(data) {
+                                    console.log('Error: ' + data);
+                                });
+
+                        console.log(data);
+                    })
+                    .error(function(data) {
+                        console.log('Error: ' + data);
+                    });
+        };
+
+        $scope.deleteHero = function(id) {
+            $http.delete('/heroes/' + id)
+                    .success(function(data) {
+                        $http.get('/heroes')
+                                .success(function(data) {
+                                    $scope.heroes = data;
+                                })
+                                .error(function(data) {
+                                    console.log('Error: ' + data);
+                                });
+                    })
+                    .error(function(data) {
+                        console.log('Error: ' + data);
+                    });
+        };
+
+    }
+</script>

@@ -1,0 +1,103 @@
+<!doctype html>
+
+<!-- ASSIGN OUR ANGULAR MODULE -->
+<html ng-app="adminHero">
+<head>
+    <!-- META -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Optimize mobile viewport -->
+
+    <title>Editing heroes</title>
+
+    <!-- SCROLLS -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"><!-- load bootstrap -->
+    <link rel="stylesheet" href="style/animations.css">
+    <style>
+        html 					{ overflow-y:scroll; }
+        body 					{ padding-top:50px; }
+        #todo-list 				{ margin-bottom:30px; }
+        #todo-form 	 			{ margin-bottom:50px; }
+    </style>
+
+    <!-- SPELLS -->
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.min.js"></script><!-- load angular -->
+    <script src="modules/home/core.js"></script>
+
+</head>
+<!-- SET THE CONTROLLER AND GET ALL TODOS WITH INITIALIZE FUNCTION -->
+<body ng-controller="mainController">
+<div class="container">
+
+    <!-- HEADER AND TODO COUNT
+    <div class="jumbotron text-center">
+        <h1>Current hero count: <span class="label label-info">{{ heroes.length }}</span></h1>
+    </div> -->
+
+
+    <div id="todo-list" class="row">
+
+        <!-- LOOP OVER -->
+        <div  class="jumbotron col-sm-8">
+            <p class="text-center h1">Toplist {{ asd }} </p>
+            <table align="center" cellspacing="2">
+                <tr>
+                    <th width="20%">Place</th>
+                    <th width="30%">Name</th>
+                    <th width="50%">Popularity</th>
+                </tr>
+                <tr ng-repeat="rank in ranking | orderBy:'place'" toplist style="
+                                        border:1px dashed black;
+                                        border-radius: 10px;
+                                            "></tr>
+            </table>
+        </div>
+
+        <!-- LOOP OVERs -->
+        <div class="col-sm-4" style="padding-left: 10px;">
+            <p class="h1 text-center">Hero list</p>
+            <table align="center" cellpadding="5" cellspacing="10">
+                <tr>
+                    <th width="50%">Name</th>
+                    <th width="50%">Type</th>
+                </tr>
+                <tr ng-repeat="hero in heroes | orderBy:'name'" herolist></tr>
+            </table>
+        </div>
+    </div>
+    <!-- FORM TO CREATE TODOS -->
+    <div id="todo-form" class="row">
+        <div class="col-sm-8 col-sm-offset-2 text-center">
+            <form>
+                <div class="form-group">
+
+                    <!-- BIND THIS VALUE TO formData.text IN ANGULAR -->
+                    <input type="text" class="form-control input-lg text-center" placeholder="Name" ng-model="formData.name">
+                    <input type="text" class="form-control input-lg text-center" placeholder="Type" ng-model="formData.type">
+                </div>
+
+                <!-- createToDo() WILL CREATE NEW TODOS -->
+                <button type="submit" class="btn btn-primary btn-lg" ng-click="createHero()">Add</button>
+            </form>
+
+            <form>
+                <div class="form-group">
+
+                    <!-- BIND THIS VALUE TO formData.text IN ANGULAR -->
+                    <input type="text" class="form-control input-lg text-center" placeholder="place" ng-model="formData.place">
+                    <input type="text" class="form-control input-lg text-center" placeholder="Name" ng-model="formData.name">
+                    <input type="text" class="form-control input-lg text-center" placeholder="popularity" ng-model="formData.popularity">
+                </div>
+
+                <!-- createToDo() WILL CREATE NEW TODOS -->
+                <button type="submit" class="btn btn-primary btn-lg" ng-click="updateRanking()">Add</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="text-center text-muted">
+        <p>Logout <a href="/#login" target="_blank">here</a>.</p>
+    </div>
+</div>
+
+</body>
+</html>
